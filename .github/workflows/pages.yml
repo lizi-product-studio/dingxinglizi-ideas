@@ -1,0 +1,49 @@
+# 推送 main 自动测试；手动运行时把 web/ 发布到 GitHub Pages。
+# 发布前需要仓库 Settings → Pages 的 Source 为「GitHub Actions」。
+name: Test and publish to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Model tests
+        run: node --test tests/*.test.mjs
+      - name: Server tests
+        run: python3 -m unittest discover -s tests -v
+
+  deploy:
+    if: github.event_name == 'workflow_dispatch'
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      # 每次发布给页面文件换上新的版本号，浏览器不会把旧的 app.js 和新的 model.mjs 混在一起用。
+      - name: Stamp asset versions
+        run: sed -i "s/?v=dev/?v=${GITHUB_SHA::8}/g" web/index.html web/app.js
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+      - id: deployment
+        uses: actions/deploy-pages@v4
