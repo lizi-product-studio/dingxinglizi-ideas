@@ -22,11 +22,17 @@
   };
   const tabs = [...document.querySelectorAll('.cap-tab')];
   const nodes = [...document.querySelectorAll('.cap-node')];
-  let active = 'software';
+  const requestedScenario=new URLSearchParams(location.search).get('scenario');
+  let active=Object.hasOwn(scenarios,requestedScenario)?requestedScenario:'software';
   let step = 0;
   const setText = (id, value) => { document.getElementById(id).textContent = value; };
   function render() {
     const scenario = scenarios[active];
+    const related={software:['operations','体验软件概念'],agent:['agent','体验知识 Agent 概念'],workflow:['workflow','体验审批流程概念']}[active];
+    document.getElementById('cap-related-concept').href='project.html?project='+related[0];
+    document.getElementById('cap-related-concept').textContent=related[1]+' ↗';
+    document.getElementById('cap-scenario-brief').href='about.html?service='+active+'#project-brief';
+
     const entry = scenario.steps[step];
     setText('scenario-kicker', scenario.kicker);
     scenario.labels.forEach((label, index) => setText(`node-label-${index}`, label));
@@ -42,7 +48,7 @@
     next.firstElementChild.textContent = step === 3 ? '重新查看' : '下一环节';
     next.setAttribute('aria-label', step === 3 ? '返回第一个流程步骤' : `查看第 ${step + 2} 个流程步骤`);
   }
-  function chooseTab(tab) {
+  function chooseTab(tab, syncUrl=true) {
     active = tab.dataset.scenario; step = 0;
     tabs.forEach(button => {
       const selected = button === tab;
@@ -52,6 +58,7 @@
     });
     document.getElementById('scenario-panel').setAttribute('aria-labelledby', tab.id);
     render();
+    if(syncUrl){const url=new URL(location.href);url.searchParams.set('scenario',active);history.replaceState(null,'',url);}
   }
   tabs.forEach((tab, index) => {
     tab.addEventListener('click', () => chooseTab(tab));
@@ -67,4 +74,5 @@
   });
   nodes.forEach(node => node.addEventListener('click', () => { step = Number(node.dataset.step); render(); }));
   document.getElementById('next-step').addEventListener('click', () => { step = (step + 1) % 4; render(); });
+  chooseTab(tabs.find(tab=>tab.dataset.scenario===active),false);
 })();

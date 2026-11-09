@@ -4,6 +4,43 @@
   const result = document.getElementById('brief-result');
   const output = document.getElementById('brief-output');
   const copyStatus = document.getElementById('copy-status');
+  const services = Object.freeze({ software: '企业软件', agent: 'AI Agent', workflow: '工作流自动化', web: '网站与数字体验', undecided: '尚未确定' });
+  const concepts = Object.freeze({
+    operations: { service: 'software', name: '序章 · 运营工作台' },
+    agent: { service: 'agent', name: '知间 · 知识 Agent' },
+    workflow: { service: 'workflow', name: '有序 · 审批工作流' }
+  });
+  const params = new URLSearchParams(location.search);
+  const requestedService = params.get('service');
+  const requestedProject = params.get('project');
+  const validService = Object.hasOwn(services, requestedService) ? requestedService : null;
+  let reference = Object.hasOwn(concepts, requestedProject) ? concepts[requestedProject] : null;
+  form.elements.service.value = validService || reference?.service || 'undecided';
+  if (reference && reference.service !== form.elements.service.value) reference = null;
+  const referencePanel = document.getElementById('brief-reference');
+  const referenceStatus = document.getElementById('reference-status');
+  function renderReference() {
+    referencePanel.hidden = !reference;
+    document.getElementById('brief-reference-name').textContent = reference?.name || '';
+  }
+  renderReference();
+  const problemExamples={software:'例如：订单分散在多份表格里，需要统一录入、分派和跟踪。',agent:'例如：同事反复查找业务资料，希望按问题找到答案和来源。',workflow:'例如：表单提交后还要手动录入另一个系统，希望减少重复操作。',web:'例如：重新整理公司官网，让访客看懂业务并方便联系。',undecided:'例如：描述现在怎样完成这件事，以及最想改变的一个环节。'};
+  const updateExample=()=>{form.elements.scenario.placeholder=problemExamples[form.elements.service.value]||problemExamples.undecided;};
+  updateExample();
+  form.addEventListener('change',event=>{if(event.target.name==='service')updateExample();});
+  form.addEventListener('change', event => {
+    if (event.target.name === 'service' && reference && reference.service !== form.elements.service.value) {
+      reference = null;
+      renderReference();
+      referenceStatus.textContent = '已按你的服务选择清除参考概念。';
+    }
+  });
+  document.getElementById('clear-reference').addEventListener('click', () => {
+    reference = null;
+    renderReference();
+    referenceStatus.textContent = '已清除参考概念。';
+    form.querySelector('input[name="service"]:checked')?.focus({ preventScroll: true });
+  });
   let previousFocus;
   async function copyText(text) {
     if (navigator.clipboard && window.isSecureContext) {
@@ -34,7 +71,8 @@
     output.value = [
       '项目简报｜栗子软件科技',
       '',
-      `希望了解：${data.get('service')}`,
+      `希望了解：${services[data.get('service')] || services.undecided}`,
+      ...(reference && reference.service === data.get('service') ? [`参考概念：${reference.name}（自主概念演示，仅作沟通参考）`] : []),
       `当前阶段：${data.get('stage')}`,
       '',
       '希望解决的业务问题：',
