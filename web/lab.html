@@ -1,31 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="栗子软件科技交互实验室。体验三维线场的形态切换、拖拽旋转与缩放。">
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="栗子软件科技交互实验室。体验三维线场的形态切换、拖拽旋转与缩放。" name="description"/>
 <title>交互实验室 — 栗子软件科技</title>
-<link rel="stylesheet" href="shared.css?v=20261109-3"><link rel="stylesheet" href="lab.css?v=20261109-3"><link rel="stylesheet" href="journey.css?v=20261109-3">
-<link rel="icon" type="image/svg+xml" href="favicon.svg"><script src="shared.js?v=20261109-3" defer></script><script src="lab.js?v=20261109-3" defer></script>
-<link rel="stylesheet" href="copy.css?v=20261109-3"></head>
+<link href="shared.css?v=20261109-4" rel="stylesheet"/><link href="lab.css?v=20261109-4" rel="stylesheet"/><link href="journey.css?v=20261109-4" rel="stylesheet"/>
+<link href="favicon.svg" rel="icon" type="image/svg+xml"/><script defer="" src="shared.js?v=20261109-4"></script><script defer="" src="lab.js?v=20261109-4"></script>
+<link href="copy.css?v=20261109-4" rel="stylesheet"/></head>
 <body data-page="lab"><div id="site-header"></div>
-<main id="main" class="wrap">
-<header class="lab-intro"><div><span class="eyebrow">LIZI / INTERACTION LAB</span><h1>交互<br><em>实验室</em></h1></div><p>三种线场形态。<br>支持拖拽、缩放与自动旋转。</p></header>
-<section class="experiment" aria-label="三维线场实验">
+<main class="wrap" id="main">
+<header class="lab-intro"><div><span class="eyebrow">LIZI / INTERACTION LAB</span><h1>交互<br/><em>实验室</em></h1></div><p>切换三种形态，拖拽调整方向，<br/>也可以缩放或单独控制自动旋转。</p></header>
+<section aria-label="三维线场实验" class="experiment">
 <div class="lab-topline"><span>三维线场 / 001</span><span class="lab-counter"><b>01</b> / 03</span></div>
-<canvas class="lab-canvas" tabindex="0" role="img" aria-label="可交互三维线场。拖拽或方向键旋转，Home复位；下方按钮切换形态、开始或暂停自动旋转。"></canvas>
+<canvas aria-label="可交互三维线场。拖拽或使用方向键旋转，Home 恢复初始方向；下方可切换形态、缩放以及开始或暂停自动旋转。" class="lab-canvas" role="img" tabindex="0"></canvas>
 <div class="lab-toolbar">
-<div class="lab-controls" role="group" aria-label="线场形态"><button type="button" class="lab-mode" data-form="0" aria-pressed="true">01 / 流动</button><button type="button" class="lab-mode" data-form="1" aria-pressed="false">02 / 聚合</button><button type="button" class="lab-mode" data-form="2" aria-pressed="false">03 / 矩阵</button></div>
-<label class="lab-setting">缩放 <input class="lab-zoom" type="range" min="65" max="125" value="100" aria-label="线场缩放"><output class="zoom-value">100%</output></label>
-<div class="lab-tools"><button type="button" class="lab-pause" aria-describedby="lab-motion-state">开始旋转 ▷</button><button type="button" class="lab-reset">重置视角 ↺</button></div>
-<p class="lab-motion-state" id="lab-motion-state" role="status" aria-live="polite">自动旋转已暂停。</p>
-</div><p class="lab-status" role="status" aria-live="polite"></p>
+<div aria-label="线场形态" class="lab-controls" role="group"><button aria-pressed="true" class="lab-mode" data-form="0" type="button">01 / 流动</button><button aria-pressed="false" class="lab-mode" data-form="1" type="button">02 / 聚合</button><button aria-pressed="false" class="lab-mode" data-form="2" type="button">03 / 矩阵</button></div>
+<label class="lab-setting">缩放 <input aria-label="线场缩放" class="lab-zoom" max="125" min="65" type="range" value="100"/><output class="zoom-value">100%</output></label>
+<div class="lab-tools"><button aria-describedby="lab-motion-state" class="lab-pause" type="button">开始旋转 ▷</button><button class="lab-reset" type="button">重置视角 ↺</button></div>
+<p aria-live="polite" class="lab-motion-state" id="lab-motion-state" role="status">自动旋转已暂停。</p>
+</div><p aria-live="polite" class="lab-status" role="status"></p>
 </section>
-<div class="lab-caption"><span>拖拽调整方向 · 滑块调整大小</span><span>键盘：方向键旋转 / Home 复位</span></div>
+<div class="lab-caption"><span>拖拽调整方向 · 滑块调整大小 · 按钮开始或暂停自动旋转</span><span>键盘：先聚焦图形，再用方向键旋转 / Home 恢复初始方向</span></div>
 <section class="lab-notes">
 <article><span>01 / 形态</span><h2>流动、聚合与矩阵</h2><p>同一组空间点，在三种结构之间切换。</p></article>
-<article><span>02 / 操作</span><h2>旋转与缩放</h2><p>拖拽调整方向，滑块改变大小。自动旋转可单独开始或暂停。</p></article>
+<article><span>02 / 操作</span><h2>旋转与缩放</h2><p>拖拽图形或使用方向键调整方向，滑块改变大小；自动旋转可用按钮单独开始或暂停。Home 恢复初始方向。</p></article>
 <article><span>03 / 产品交互</span><h2>查看业务演示</h2><p>体验运营工作台、知识 Agent 与审批流程的操作与反馈。</p><a class="text-link" href="work.html">查看概念演示 ↗</a></article>
 </section>
 </main><div id="site-footer"></div></body></html>
-
-

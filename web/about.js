@@ -24,7 +24,7 @@
     document.getElementById('brief-reference-name').textContent = reference?.name || '';
   }
   renderReference();
-  const problemExamples={software:'例如：订单分散在多份表格里，需要统一录入、分派和跟踪。',agent:'例如：同事反复查找业务资料，希望按问题找到答案和来源。',workflow:'例如：表单提交后还要手动录入另一个系统，希望减少重复操作。',web:'例如：重新整理公司官网，让访客看懂业务并方便联系。',undecided:'例如：描述现在怎样完成这件事，以及最想改变的一个环节。'};
+  const problemExamples={"software": "例如：订单改过后，发货同事还在看旧表，想让大家看到最新进度。", "agent": "例如：产品资料分散，同事经常重复问相同问题，想方便查找出处。", "workflow": "例如：收到表单后，要复制到表格再通知同事，想减少重复操作。", "web": "例如：官网介绍不清楚业务，客户找不到联系方式，想重新整理。", "undecided": "例如：现在怎么完成这件事？哪一步最想改善？"};
   const updateExample=()=>{form.elements.scenario.placeholder=problemExamples[form.elements.service.value]||problemExamples.undecided;};
   updateExample();
   form.addEventListener('change',event=>{if(event.target.name==='service')updateExample();});
@@ -63,25 +63,25 @@
     event.preventDefault();
     const scenario = form.elements.scenario.value.trim();
     if (!scenario) {
-      form.elements.scenario.setCustomValidity('请描述一个希望解决的业务问题。');
+      form.elements.scenario.setCustomValidity('请写下现在遇到的问题。');
       form.elements.scenario.reportValidity(); return;
     }
     const data = new FormData(form);
     const optional = name => String(data.get(name) || '').trim() || '待沟通确认';
     output.value = [
-      '项目简报｜栗子软件科技',
+      '需求简报｜栗子软件科技',
       '',
       `服务方向：${services[data.get('service')] || services.undecided}`,
       ...(reference && reference.service === data.get('service') ? [`参考概念：${reference.name}（自主概念演示，仅作沟通参考）`] : []),
       `当前阶段：${data.get('stage')}`,
       '',
-      '希望解决的业务问题：',
+      '现在遇到的问题：',
       scenario,
       '',
       `目前使用的工具或系统：${optional('tools')}`,
       `期望启动时间：${optional('time')}`,
       '',
-      '待沟通事项：需求范围、交付内容、协作节点与验收标准。'
+      '待沟通事项：这次做什么、怎样交付、怎样验收。'
     ].join('\n');
     previousFocus = document.activeElement;
     form.hidden = true; result.hidden = false;
