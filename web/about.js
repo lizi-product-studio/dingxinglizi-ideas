@@ -4,7 +4,7 @@
   const result = document.getElementById('brief-result');
   const output = document.getElementById('brief-output');
   const copyStatus = document.getElementById('copy-status');
-  const services = Object.freeze({ software: '企业软件', agent: 'AI Agent', workflow: '工作流自动化', web: '网站与数字体验', undecided: '尚未确定' });
+  const services = Object.freeze({ software: '企业软件开发', agent: 'AI Agent 搭建', workflow: '工作流自动化', web: '网站搭建', undecided: '尚未确定' });
   const concepts = Object.freeze({
     operations: { service: 'software', name: '序章 · 运营工作台' },
     agent: { service: 'agent', name: '知间 · 知识 Agent' },
@@ -71,7 +71,7 @@
     output.value = [
       '项目简报｜栗子软件科技',
       '',
-      `希望了解：${services[data.get('service')] || services.undecided}`,
+      `服务方向：${services[data.get('service')] || services.undecided}`,
       ...(reference && reference.service === data.get('service') ? [`参考概念：${reference.name}（自主概念演示，仅作沟通参考）`] : []),
       `当前阶段：${data.get('stage')}`,
       '',
@@ -81,7 +81,7 @@
       `目前使用的工具或系统：${optional('tools')}`,
       `期望启动时间：${optional('time')}`,
       '',
-      '希望进一步沟通：业务流程、实现范围、交付方式与验收标准。'
+      '待沟通事项：需求范围、交付内容、协作节点与验收标准。'
     ].join('\n');
     previousFocus = document.activeElement;
     form.hidden = true; result.hidden = false;
